@@ -4,6 +4,7 @@ const cors=require("cors")
 const app=express();
 const path =require("path")
 const authRouter= require('./router/authRouter')
+const restaurantRouter = require('./router/restaurantRouter')
 require("dotenv").config({path:'./.env'})
 const bodyParser = require('body-parser');
 const http = require('http');
@@ -21,6 +22,7 @@ mongoose.connect(process.env.CONNECTSTRING).then(()=>
 })
 
 app.use('/auth',authRouter)
+app.use('/restuarant',restaurantRouter)
 
 const server = http.createServer(app);
 server.listen(4000, () => {
