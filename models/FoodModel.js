@@ -8,6 +8,8 @@ const foodSchema = new mongoose.Schema({
     isVeg: { type: Boolean, required: true }, // Indicates if the item is vegetarian
     type: { type: String, required: true }, // Type/category, e.g., "Burger", "Pizza"
     restaurantId: { type: mongoose.Schema.Types.ObjectId, ref: 'Restaurant', required: true }, // References Restaurants
+    rating:{ type: Number, default: 0 }, 
+    reviewsCount: { type: Number, default: 0 }, 
     isAvailable: { type: Boolean, default: true }, // Availability status
     createdAt: { type: Date, default: Date.now }, // Record creation timestamp
     updatedAt: { type: Date, default: Date.now }, // Record update timestamp
@@ -15,3 +17,4 @@ const foodSchema = new mongoose.Schema({
 
 const Food = mongoose.model('Food', foodSchema);
 module.exports = Food;
+

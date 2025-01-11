@@ -41,7 +41,7 @@ const createRestaurant = async (req, res) => {
 const getAllRestaurant= async(req,res)=>{
   try {
     // Fetch all restaurants from the database
-    const restaurants = await Restaurant.find().select('-createdAt -updatedAt -__v');; 
+    const restaurants = await Restaurant.find().select('-createdAt -updatedAt -__v'); 
 
     // If no restaurants are found, return an appropriate message
     if (restaurants.length === 0) {
