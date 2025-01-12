@@ -44,5 +44,49 @@ const getFood= async(req,res)=>{
   }
 } 
   
+const getFoodById=async(req,res)=>{
+  try {
+    const {id} = req.params;
+    const food= await Food.findById(id).select('-createdAt -updatedAt -__v');
+    if(!food){
+      return res.status(404).json("No food item found")
+    }
+    res.status(200).json({food});
+  } catch (error) {
+    console.log(error.message)
+    res.status(500).json({message:"Internal Server Error"})
+  }
+}
 
-module.exports={createFood, getFood}
+const getRestaurantWithMenu = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const restaurantId=id;
+    // Validate the restaurantId
+    const mongoose = require('mongoose');
+    if (!mongoose.Types.ObjectId.isValid(restaurantId)) {
+      return res.status(400).json({ message: "Invalid restaurant ID" });
+    }
+
+    // Fetch restaurant details
+    const restaurant = await Restaurant.findById(restaurantId).select('-createdAt -updatedAt -__v');
+
+    if (!restaurant) {
+      return res.status(404).json({ message: "Restaurant not found" });
+    }
+
+    // Fetch menu items for the restaurant
+    const restaurantMenu = await Food.find({ restaurantId }).select('-createdAt -updatedAt -__v');
+
+    res.status(200).json({
+      restaurant,
+      restaurantMenu,
+    });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+
+module.exports={createFood, getFood, getFoodById, getRestaurantWithMenu}
